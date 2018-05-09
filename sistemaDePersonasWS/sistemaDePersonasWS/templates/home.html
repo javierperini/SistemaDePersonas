@@ -1,0 +1,28 @@
+{% extends "master.html" %}
+{% load static %}
+{% block full_page_title %}UnderTheater{% endblock %}
+{% block content %}
+<div class="container">
+    <div class='form-group'>
+        <h1> Listado de persona inscriptas </h1>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha de nacimiento</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for person in persons %}
+            <tr>
+                <td>{{person.first_name}}</td>
+                <td>{{person.last_name}}</td>
+                <td>{{person.birthday|date:'j/n/Y'}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
