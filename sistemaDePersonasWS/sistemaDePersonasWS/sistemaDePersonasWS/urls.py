@@ -19,6 +19,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.HomeView.as_view(), name="home"),
+    url(r'^$', views.HomeView.as_view(), name='home'),
+    url(r'^create$', views.PersonCreateView.as_view(success_url="/"), name='create_person'),
     url(r'^admin/', admin.site.urls),
 ]

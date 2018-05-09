@@ -24,4 +24,23 @@ class HomeTests(ClientInit):
         self.assertEqual(persons.count(), 0)
 
 
+class CreatePersonTests(ClientInit):
+    def test_create_a_person(self):
+        expect_person_count = Person.objects.count() + 1
+        today = date.today().strftime('%d/%m/%Y')
+        params = {'first_name': 'Javier', 'last_name': 'Perini', 'birthday': today}
+        self.client.post(reverse('create_person'), params)
+        self.assertEqual(Person.objects.count(), expect_person_count)
 
+    def test_not_create_a_person_when_last_name_param_is_missing(self):
+        expect_person_count = Person.objects.count()
+        today = date.today().strftime('%d/%m/%Y')
+        params = {'first_name': 'Javier', 'birthday': today}
+        self.client.post(reverse('create_person'), params)
+        self.assertEqual(Person.objects.count(), expect_person_count)
+
+    def test_redirect_to_home_when_the_creation_was_ok(self):
+        today = date.today().strftime('%d/%m/%Y')
+        params = {'first_name': 'Javier', 'last_name': 'Perini', 'birthday': today}
+        response = self.client.post(reverse('create_person'), params)
+        self.assertEqual(response.url, '/')
