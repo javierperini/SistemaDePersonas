@@ -16,10 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name='home'),
-    url(r'^create$', views.PersonCreateView.as_view(success_url="/"), name='create_person'),
+    url(r'^person/create$', views.PersonCreateView.as_view(success_url="/"), name='create_person'),
+    url(r'^person/(?P<pk>\d+)/upload_file$', views.upload_file, name='upload_file'),
     url(r'^admin/', admin.site.urls),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.STATICFILES_DIRS)

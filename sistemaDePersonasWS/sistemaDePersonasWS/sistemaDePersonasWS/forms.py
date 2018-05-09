@@ -5,10 +5,10 @@ from sistemaDePersonasApp.models import Person
 
 class PersonForm(forms.ModelForm):
     date_format = '%d/%m/%Y'
-    birthday = forms.DateField(initial=timezone.now().date().strftime(date_format),
-                            input_formats=[date_format], label="Desde",
-                            widget=forms.widgets.DateInput(format=date_format,
-                                                           attrs={'class': 'datepicker form-control'}))
+    birthday = forms.DateField(initial=timezone.now().date().strftime(date_format), input_formats=[date_format],
+                               label='Desde',
+                               widget=forms.widgets.DateInput(format=date_format,
+                                                              attrs={'class': 'datepicker form-control'}))
 
     class Meta:
         model = Person

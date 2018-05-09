@@ -1,6 +1,8 @@
 from django.views.generic import TemplateView, CreateView
 from sistemaDePersonasApp.models import Person
 from sistemaDePersonasWS.forms import PersonForm
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse, HttpResponseForbidden
 
 
 class HomeView(TemplateView):
@@ -15,3 +17,14 @@ class HomeView(TemplateView):
 class PersonCreateView(CreateView):
     model = Person
     form_class = PersonForm
+
+
+def upload_file(self, pk):
+    if self.is_ajax:
+        person = get_object_or_404(Person, pk=pk)
+        file = self.FILES.get('file')
+        person.file = file
+        person.save()
+        return JsonResponse({'msg': "ok"})
+    else:
+        return HttpResponseForbidden()
