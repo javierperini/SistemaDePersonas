@@ -1,8 +1,9 @@
-from django.views.generic import TemplateView, CreateView
-from sistemaDePersonasApp.models import Person
+from django.views.generic import TemplateView, CreateView, UpdateView
+from sistemaDePersonasApp.models import Person, PersonImages
 from sistemaDePersonasWS.forms import PersonForm
-from django.shortcuts import get_object_or_404
 from django.http import JsonResponse, HttpResponseForbidden
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 
 class HomeView(TemplateView):
@@ -17,14 +18,25 @@ class HomeView(TemplateView):
 class PersonCreateView(CreateView):
     model = Person
     form_class = PersonForm
+    template_name = "sistemaDePersonasApp/create_person.html"
+
+    def post(self, request, *args, **kwargs):
+        response = super(PersonCreateView, self).post(request, *args, **kwargs)
+        messages.info(request, 'Se registro la persona correctamente')
+        return response
 
 
-def upload_file(self, pk):
-    if self.is_ajax:
-        person = get_object_or_404(Person, pk=pk)
-        file = self.FILES.get('file')
-        person.file = file
-        person.save()
-        return JsonResponse({'msg': "ok"})
-    else:
-        return HttpResponseForbidden()
+class PersonUpdateView(UpdateView):
+    model = Person
+    form_class = PersonForm
+    template_name = "sistemaDePersonasApp/update_person.html"
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, instance=self.get_object())
+        if request.is_ajax and form.is_valid():
+            form.save()
+            for img in request.FILES.getlist('file'):
+                PersonImages.objects.create(file=img, owner=form.instance)
+            return JsonResponse({'msg': "ok", 'redirect': reverse('home')})
+        else:
+            return HttpResponseForbidden()

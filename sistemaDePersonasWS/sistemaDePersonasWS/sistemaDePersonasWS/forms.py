@@ -4,11 +4,9 @@ from sistemaDePersonasApp.models import Person
 
 
 class PersonForm(forms.ModelForm):
-    date_format = '%d/%m/%Y'
-    birthday = forms.DateField(initial=timezone.now().date().strftime(date_format), input_formats=[date_format],
+    birthday = forms.DateField(initial=timezone.now().date(),
                                label='Desde',
-                               widget=forms.widgets.DateInput(format=date_format,
-                                                              attrs={'class': 'datepicker form-control'}))
+                               widget=forms.widgets.DateInput(attrs={'class': 'datepicker form-control'}))
 
     class Meta:
         model = Person
@@ -17,3 +15,5 @@ class PersonForm(forms.ModelForm):
                                                         'placeholder': 'Ingresa nombre', 'required': True}),
                    'last_name': forms.TextInput(attrs={'size': 25, 'class': 'form-control', 'required': True,
                                                         'placeholder': 'Ingresa apellido'}),}
+
+

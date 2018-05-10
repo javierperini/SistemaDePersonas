@@ -23,8 +23,8 @@ from django.conf import settings
 urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^person/create$', views.PersonCreateView.as_view(success_url="/"), name='create_person'),
-    url(r'^person/(?P<pk>\d+)/upload_file$', views.upload_file, name='upload_file'),
+        url(r'^person/(?P<pk>\d+)/update$', views.PersonUpdateView.as_view(), name='update_person'),
     url(r'^admin/', admin.site.urls),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.STATICFILES_DIRS)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

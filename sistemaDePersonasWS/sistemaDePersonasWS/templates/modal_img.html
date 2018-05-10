@@ -1,0 +1,26 @@
+<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#{{modal_id}}'>
+  Ver imagenes
+</button>
+<div class='modal file-modal-js' id='{{modal_id}}' tabindex='-1' role='dialog'>
+  <div class='modal-dialog' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title'>Imagenes</h5>
+        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+          <span aria-hidden='true'>&times;</span>
+        </button>
+      </div>
+      <div class='modal-body'>
+        {% for img in images.all %}
+            <div class='form-group'>
+                <img src='{{img.file.url}}' class='img-thumbnail'>
+            </div>
+        {% endfor %}
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
